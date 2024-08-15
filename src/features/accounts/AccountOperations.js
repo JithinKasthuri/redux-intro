@@ -14,12 +14,14 @@ function AccountOperations() {
     loan: currentLoan,
     loanPurpose: currentLoanPurpose,
     balance,
+    isLoading,
   } = useSelector((store) => store.account);
 
   function handleDeposit() {
     if (!depositAmount) return;
-    dispatch(deposit(depositAmount));
+    dispatch(deposit(depositAmount, currency)); //If function inside dispatch returns a function, React knows it is a thunk and wait for the asynchronous operation
     setDepositAmount("");
+    setCurrency("");
   }
 
   function handleWithdrawal() {
@@ -38,6 +40,8 @@ function AccountOperations() {
   function handlePayLoan() {
     dispatch(payLoan());
   }
+
+  console.log(isLoading);
 
   return (
     <div>
@@ -59,7 +63,11 @@ function AccountOperations() {
             <option value="GBP">British Pound</option>
           </select>
 
-          <button onClick={handleDeposit}>Deposit {depositAmount}</button>
+          <button onClick={handleDeposit} disabled={isLoading}>
+            {isLoading
+              ? "Converting Currency........"
+              : `Deposit ${depositAmount}`}
+          </button>
         </div>
 
         <div>
