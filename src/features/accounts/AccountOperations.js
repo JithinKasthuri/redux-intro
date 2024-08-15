@@ -21,7 +21,7 @@ function AccountOperations() {
     if (!depositAmount) return;
     dispatch(deposit(depositAmount, currency)); //If function inside dispatch returns a function, React knows it is a thunk and wait for the asynchronous operation
     setDepositAmount("");
-    setCurrency("");
+    setCurrency("USD");
   }
 
   function handleWithdrawal() {
